@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApocForms.Common
+namespace Library.Common
 {
     /// <summary>
     /// base class for filter objects
@@ -42,7 +42,5 @@ namespace ApocForms.Common
             create_by_uid = update_by_uid = AppInfo.UserID;
             create_on_dts = update_on_dts = DateTime.Now;
         }
-
-
     }
 }

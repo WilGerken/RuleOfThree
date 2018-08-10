@@ -47,17 +47,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Common\BaseBusObj.cs" />
-    <Compile Include="Resources\Common\BaseDataAccess.cs" />
-    <Compile Include="Resources\Common\BaseDataObj.cs" />
-    <Compile Include="Resources\Common\BaseConfig.cs" />
+    <Compile Include="Common\BaseBusObj.cs" />
+    <Compile Include="Common\BaseDataAccess.cs" />
+    <Compile Include="Common\BaseDataObj.cs" />
+    <Compile Include="Common\BaseConfig.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\" />
     <Folder Include="Models\Common\" />
     <Folder Include="Models\Location\" />
     <Folder Include="Models\Structure\" />
     <Folder Include="Models\Unit\" />
+    <Folder Include="Resources\Common\" />
     <Folder Include="Resources\Location\" />
     <Folder Include="Resources\Structure\" />
     <Folder Include="Resources\Unit\" />

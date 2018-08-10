@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Csla;
 
-namespace ApocForms.Common
+namespace Library.Common
 {
     /// <summary>
     /// item criteria base class
@@ -12,6 +12,8 @@ namespace ApocForms.Common
     public abstract class ItemCriteria_Base<T> : CriteriaBase<T>
             where T : ItemCriteria_Base<T>
     {
+        #region Properties
+
         public static readonly PropertyInfo<int?> ObjectId_Property = RegisterProperty<int?>(c => c.ObjectId);
         public int? ObjectId
         {
@@ -25,6 +27,8 @@ namespace ApocForms.Common
         {
             dto.object_id = ObjectId;
         }
+
+        #endregion
     }
 
     /// <summary>
@@ -35,25 +39,7 @@ namespace ApocForms.Common
     public abstract class ListCriteria_Base<T> : CriteriaBase<T> 
         where T : ListCriteria_Base<T>
     {
-        /// <summary>
-        /// select option value
-        /// </summary>
-        public static readonly PropertyInfo<int?> SelectOptionValue_Property = RegisterProperty<int?>(c => c.SelectOption_Value);
-        public int? SelectOption_Value
-        {
-            get { return ReadProperty(SelectOptionValue_Property); }
-            set { LoadProperty(SelectOptionValue_Property, value); }
-        }
-
-        /// <summary>
-        /// select option text
-        /// </summary>
-        public static readonly PropertyInfo<string> SelectOptionText_Property = RegisterProperty<string>(c => c.SelectOption_Text);
-        public string SelectOption_Text
-        {
-            get { return ReadProperty(SelectOptionText_Property); }
-            set { LoadProperty(SelectOptionText_Property, value); }
-        }
+        #region Properties
 
         /// <summary>
         /// persistent object id
@@ -85,12 +71,34 @@ namespace ApocForms.Common
             set { LoadProperty(ActiveYn_Property, value); }
         }
 
+        /// <summary>
+        /// select option value
+        /// </summary>
+        public static readonly PropertyInfo<int?> SelectOptionValue_Property = RegisterProperty<int?>(c => c.SelectOption_Value);
+        public int? SelectOption_Value
+        {
+            get { return ReadProperty(SelectOptionValue_Property); }
+            set { LoadProperty(SelectOptionValue_Property, value); }
+        }
+
+        /// <summary>
+        /// select option text
+        /// </summary>
+        public static readonly PropertyInfo<string> SelectOptionText_Property = RegisterProperty<string>(c => c.SelectOption_Text);
+        public string SelectOption_Text
+        {
+            get { return ReadProperty(SelectOptionText_Property); }
+            set { LoadProperty(SelectOptionText_Property, value); }
+        }
+
         protected void ToDto (Data_F_Base dto)
         {
             dto.object_id   = ObjectId;
             dto.selected_id = SelectedId;
             dto.active_yn   = ActiveYn;
         }
+
+        #endregion
     }
 
     /// <summary>
@@ -132,6 +140,7 @@ namespace ApocForms.Common
             ObjectId = dto.object_id;
             ActiveYn = dto.active_yn;
         }
+
         #endregion
 
         #region DataPortal
@@ -173,7 +182,7 @@ namespace ApocForms.Common
         where I : InfoItem_Base<I, K>
         where K : ItemCriteria_Base<K>, new()
     {
-        #region Client Side
+        #region DataPortal
 
         public static void GetList(EventHandler<DataPortalResult<L>> callback)
         {
@@ -265,10 +274,6 @@ namespace ApocForms.Common
             set { SetProperty(VersionKey_Property, value); }
         }
 
-        #endregion
-
-        #region Methods
-
         protected void FromDto (Data_O_Base dto)
         {
             ObjectId    = dto.object_id;
@@ -358,7 +363,7 @@ namespace ApocForms.Common
     {
         #region Properties
 
-        public static PropertyInfo<I> EditItem_Property = RegisterProperty<I>(c => c.EditItem);
+        public static readonly PropertyInfo<I> EditItem_Property = RegisterProperty<I>(c => c.EditItem);
         public I EditItem
         {
             get { return GetProperty(EditItem_Property); }
@@ -420,7 +425,7 @@ namespace ApocForms.Common
         where I : EditItem_Base<I,K>
         where K : ItemCriteria_Base<K>, new()
     {
-        #region Client Side
+        #region DataPortal
 
         public static void GetList (EventHandler<DataPortalResult<L>> callback)
         {

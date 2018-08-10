@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApocForms.Common
+namespace Library.Common
 {
     public abstract class DATA_ACCESS_BASE <T,F,K>
         where T : Data_O_Base
