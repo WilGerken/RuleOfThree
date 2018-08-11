@@ -46,11 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Ref.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\BaseBusObj.cs" />
     <Compile Include="Common\BaseDataAccess.cs" />
     <Compile Include="Common\BaseDataObj.cs" />
     <Compile Include="Common\BaseConfig.cs" />
+    <Compile Include="Resources\DalFactory.cs" />
+    <Compile Include="Resources\Location\DalManager.cs" />
+    <Compile Include="Resources\Location\interfaces\world_map.cs" />
+    <Compile Include="Resources\Location\memory\world_map.cs" />
+    <Compile Include="Resources\Location\persist_db\world_map.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Common\" />
@@ -58,7 +64,6 @@
     <Folder Include="Models\Structure\" />
     <Folder Include="Models\Unit\" />
     <Folder Include="Resources\Common\" />
-    <Folder Include="Resources\Location\" />
     <Folder Include="Resources\Structure\" />
     <Folder Include="Resources\Unit\" />
   </ItemGroup>
