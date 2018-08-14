@@ -9,28 +9,31 @@ namespace Library.Resources.Location.memory
     /// <summary>
     /// data access class
     /// </summary>
-    public class WORLD_MAP : DATA_ACCESS_BASE<D_WORLD_MAP, F_WORLD_MAP, K_WORLD_MAP>, I_WORLD_MAP
+    public class REGION_MAP : DATA_ACCESS_BASE<D_REGION_MAP, F_REGION_MAP, K_REGION_MAP>, I_REGION_MAP
     {
         // resource list
 
-        public static List<D_WORLD_MAP> _ResourceList = new List<D_WORLD_MAP>();
+        public static List<D_REGION_MAP> _ResourceList = new List<D_REGION_MAP>();
 
-        static WORLD_MAP ()
+        static REGION_MAP ()
         {
-            for (int x = 0; x <= Ref.WORLD_DIM_X; x++)
+            // basic map
+            for (int x = 0; x <= Ref.REGION_DIM_X; x++)
             {
-                for (int y = 0; y <= Ref.WORLD_DIM_Y; y++)
+                for (int y = 0; y <= Ref.REGION_DIM_Y; y++)
                 {
                     int lID = 0;
 
-                    _ResourceList.Add (new D_WORLD_MAP
-                    {
+                    _ResourceList.Add (new D_REGION_MAP {
                         objectID = lID++,
+                        worldID  = 0,
                         mapX     = x,
                         mapY     = y
                     });
                 }
             }
+
+            // terrain changes
         }
 
         /// <summary>
@@ -38,14 +41,19 @@ namespace Library.Resources.Location.memory
         /// </summary>
         /// <param name="aFilter"></param>
         /// <returns></returns>
-        public List<D_WORLD_MAP> SelectList (F_WORLD_MAP aFilter)
+        public List<D_REGION_MAP> SelectList (F_REGION_MAP aFilter)
         {
-            IEnumerable<D_WORLD_MAP> lResult = _ResourceList;
+            IEnumerable<D_REGION_MAP> lResult = _ResourceList;
 
             // apply filter attributes
-            if (aFilter.regionID.HasValue)
+            if (aFilter.sectorID.HasValue)
             {
-                lResult = lResult.Where (x => REGION_MAP._ResourceList.Select (y => y.worldID).Contains (x.objectID));
+                lResult = lResult.Where (x => SECTOR_MAP._ResourceList.Select (y => y.regionID).Contains (x.objectID));
+            }
+
+            if (aFilter.worldID.HasValue)
+            {
+                lResult = lResult.Where(x => x.worldID == aFilter.worldID.Value);
             }
 
             if (aFilter.mapX.HasValue)
@@ -55,7 +63,7 @@ namespace Library.Resources.Location.memory
 
             if (aFilter.mapY.HasValue)
             {
-                lResult = lResult.Where (x => x.mapY == aFilter.mapY.Value);
+                lResult = lResult.Where(x => x.mapY == aFilter.mapY.Value);
             }
 
             // check base criteria
@@ -65,16 +73,16 @@ namespace Library.Resources.Location.memory
             }
 
             // return result
-            return lResult.ToList<D_WORLD_MAP>();
+            return lResult.ToList<D_REGION_MAP>();
         }
 
         /// <summary>
         /// remove all matching items from persistent store
         /// </summary>
         /// <param name="aFilter"></param>
-        public void DeleteList (F_WORLD_MAP aFilter)
+        public void DeleteList (F_REGION_MAP aFilter)
         {
-            throw new NotImplementedException ("WORLD_MAP.DeleteList not implemented");
+            throw new NotImplementedException ("REGION_MAP.DeleteList not implemented");
         }
 
         /// <summary>
@@ -82,17 +90,17 @@ namespace Library.Resources.Location.memory
         /// </summary>
         /// <param name="aKey"></param>
         /// <returns></returns>
-        public D_WORLD_MAP SelectItem (K_WORLD_MAP aKey)
+        public D_REGION_MAP SelectItem (K_REGION_MAP aKey)
         {
-            D_WORLD_MAP lResult = null;
+            D_REGION_MAP lResult = null;
 
             // apply key attributes
             if (aKey.objectID.HasValue)
-                lResult = _ResourceList.Where (x => x.objectID == aKey.objectID).FirstOrDefault();
+                lResult = _ResourceList.Where(x => x.objectID == aKey.objectID).FirstOrDefault();
 
             // throw exception if not found
             if (lResult == null)
-                throw new DllNotFoundException (string.Format ("WORLD_MAP Item not found for key {0}", aKey.objectID));
+                throw new DllNotFoundException (string.Format ("REGION_MAP Item not found for key {0}", aKey.objectID));
 
             // return result
             return lResult;
@@ -102,7 +110,7 @@ namespace Library.Resources.Location.memory
         /// insert an item into persistent store
         /// </summary>
         /// <param name="aDto"></param>
-        public D_WORLD_MAP InsertItem (D_WORLD_MAP aDto)
+        public D_REGION_MAP InsertItem (D_REGION_MAP aDto)
         {
             int lID = 0;
 
@@ -110,16 +118,18 @@ namespace Library.Resources.Location.memory
                 lID = _ResourceList.Select (x => x.objectID).Max() + 1;
 
             // create new item
-            D_WORLD_MAP lItem = new D_WORLD_MAP
+            D_REGION_MAP lItem = new D_REGION_MAP
             { 
                 objectID = lID,
+                worldID  = aDto.worldID, 
                 mapX     = aDto.mapX,
-                mapY     = aDto.mapY,
+                mapY     = aDto.mapY
             };
 
-            // insert new item into list
+            // insert new item into ist
             lock (_ResourceList)
             {
+
             }
 
             return aDto;
@@ -129,16 +139,17 @@ namespace Library.Resources.Location.memory
         /// update an item in persistent store
         /// </summary>
         /// <param name="aDto"></param>
-        public D_WORLD_MAP UpdateItem (D_WORLD_MAP aDto)
+        public D_REGION_MAP UpdateItem (D_REGION_MAP aDto)
         {
             // fetch indicated item
-            D_WORLD_MAP lItem = _ResourceList.Where (x => x.objectID == aDto.objectID).FirstOrDefault();
+            D_REGION_MAP lItem = _ResourceList.Where (x => x.objectID == aDto.objectID).FirstOrDefault();
 
             // update item
             lock (lItem)
             {
-                lItem.mapX = aDto.mapX;
-                lItem.mapY = aDto.mapY;
+                lItem.worldID = aDto.worldID;
+                lItem.mapX    = aDto.mapY;
+                lItem.mapY    = aDto.mapX;
             }
 
             return aDto;
@@ -148,7 +159,7 @@ namespace Library.Resources.Location.memory
         /// remove an item from persistent store
         /// </summary>
         /// <param name="aKey"></param>
-        public void DeleteItem (K_WORLD_MAP aKey)
+        public void DeleteItem (K_REGION_MAP aKey)
         {
             lock (_ResourceList)
             {

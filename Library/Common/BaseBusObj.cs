@@ -14,18 +14,18 @@ namespace Library.Common
     {
         #region Properties
 
-        public static readonly PropertyInfo<int?> ObjectId_Property = RegisterProperty<int?>(c => c.ObjectId);
-        public int? ObjectId
+        public static readonly PropertyInfo<int?> ObjectID_Property = RegisterProperty<int?>(c => c.ObjectID);
+        public int? ObjectID
         {
-            get { return ReadProperty(ObjectId_Property); }
-            set { LoadProperty(ObjectId_Property, value); }
+            get { return ReadProperty(ObjectID_Property); }
+            set { LoadProperty(ObjectID_Property, value); }
         }
 
-        public bool HasKey {  get { return ObjectId.HasValue; } }
+        public bool HasKey {  get { return ObjectID.HasValue; } }
 
         protected void ToDto (Data_K_Base dto)
         {
-            dto.object_id = ObjectId;
+            dto.objectID = ObjectID;
         }
 
         #endregion
@@ -44,21 +44,21 @@ namespace Library.Common
         /// <summary>
         /// persistent object id
         /// </summary>
-        public static readonly PropertyInfo<int?> ObjectId_Property = RegisterProperty<int?>(c => c.ObjectId);
-        public int? ObjectId
+        public static readonly PropertyInfo<int?> ObjectID_Property = RegisterProperty<int?>(c => c.ObjectID);
+        public int? ObjectID
         {
-            get { return ReadProperty(ObjectId_Property); }
-            set { LoadProperty(ObjectId_Property, value); }
+            get { return ReadProperty(ObjectID_Property); }
+            set { LoadProperty(ObjectID_Property, value); }
         }
 
         /// <summary>
         /// persistent object id
         /// </summary>
-        public static readonly PropertyInfo<int?> SelectedId_Property = RegisterProperty<int?>(c => c.SelectedId);
-        public int? SelectedId
+        public static readonly PropertyInfo<int?> SelectedID_Property = RegisterProperty<int?>(c => c.SelectedID);
+        public int? SelectedID
         {
-            get { return ReadProperty(SelectedId_Property); }
-            set { LoadProperty(SelectedId_Property, value); }
+            get { return ReadProperty(SelectedID_Property); }
+            set { LoadProperty(SelectedID_Property, value); }
         }
 
         /// <summary>
@@ -93,9 +93,9 @@ namespace Library.Common
 
         protected void ToDto (Data_F_Base dto)
         {
-            dto.object_id   = ObjectId;
-            dto.selected_id = SelectedId;
-            dto.active_yn   = ActiveYn;
+            dto.objectID   = ObjectID;
+            dto.selectedID = SelectedID;
+            dto.activeYn   = ActiveYn;
         }
 
         #endregion
@@ -116,12 +116,12 @@ namespace Library.Common
         /// <summary>
         /// persistent object id
         /// </summary>
-        public static readonly PropertyInfo<int> ObjectId_Property = RegisterProperty<int>(c => c.ObjectId);
+        public static readonly PropertyInfo<int> ObjectID_Property = RegisterProperty<int>(c => c.ObjectID);
         [Required]
-        public int ObjectId
+        public int ObjectID
         {
-            get { return GetProperty(ObjectId_Property); }
-            set { LoadProperty(ObjectId_Property, value); }
+            get { return GetProperty(ObjectID_Property); }
+            set { LoadProperty(ObjectID_Property, value); }
         }
 
         /// <summary>
@@ -137,8 +137,8 @@ namespace Library.Common
 
         protected void FromDto (Data_O_Base dto)
         {
-            ObjectId = dto.object_id;
-            ActiveYn = dto.active_yn;
+            ObjectID = dto.objectID;
+            ActiveYn = dto.activeYn;
         }
 
         #endregion
@@ -219,12 +219,12 @@ namespace Library.Common
     {
         #region Properties
 
-        public static readonly PropertyInfo<int> ObjectId_Property = RegisterProperty<int>(c => c.ObjectId);
+        public static readonly PropertyInfo<int> ObjectID_Property = RegisterProperty<int>(c => c.ObjectID);
         [Required]
-        public int ObjectId
+        public int ObjectID
         {
-            get { return GetProperty(ObjectId_Property); }
-            set { SetProperty(ObjectId_Property, value); }
+            get { return GetProperty(ObjectID_Property); }
+            set { SetProperty(ObjectID_Property, value); }
         }
 
         public static readonly PropertyInfo<bool> ActiveYn_Property = RegisterProperty<bool>(c => c.ActiveYn);
@@ -276,24 +276,24 @@ namespace Library.Common
 
         protected void FromDto (Data_O_Base dto)
         {
-            ObjectId    = dto.object_id;
-            ActiveYn    = dto.active_yn;
-            CreateByUid = dto.create_by_uid;
-            CreateOnDts = dto.create_on_dts;
-            UpdateByUid = dto.update_by_uid;
-            UpdateOnDts = dto.update_on_dts;
-            VersionKey  = dto.version_key;
+            ObjectID    = dto.objectID;
+            ActiveYn    = dto.activeYn;
+            CreateByUid = dto.createByUid;
+            CreateOnDts = dto.createOnDts;
+            UpdateByUid = dto.updateByUid;
+            UpdateOnDts = dto.updateOnDts;
+            VersionKey  = dto.versionKey;
         }
 
         protected void ToDto (Data_O_Base dto)
         {
-            dto.object_id     = ObjectId;
-            dto.active_yn     = ActiveYn;
-            dto.create_by_uid = CreateByUid;
-            dto.create_on_dts = CreateOnDts;
-            dto.update_by_uid = UpdateByUid;
-            dto.update_on_dts = UpdateOnDts;
-            dto.version_key   = VersionKey;
+            dto.objectID    = ObjectID;
+            dto.activeYn    = ActiveYn;
+            dto.createByUid = CreateByUid;
+            dto.createOnDts = CreateOnDts;
+            dto.updateByUid = UpdateByUid;
+            dto.updateOnDts = UpdateOnDts;
+            dto.versionKey  = VersionKey;
         }
 
         #endregion
@@ -324,7 +324,7 @@ namespace Library.Common
         {
             using (BypassPropertyChecks)
             {
-                ObjectId    = -1;
+                ObjectID    = -1;
                 CreateOnDts = UpdateOnDts = DateTime.Now;
                 CreateByUid = UpdateByUid = AppInfo.UserID;
                 ActiveYn    = true;

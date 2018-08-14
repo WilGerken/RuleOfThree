@@ -25,20 +25,22 @@ namespace Library.Common
         }
 
         // map limits
-        public int WORLD_MAX_X = 8;
-        public int WORLD_MAX_Y = 8;
+        public const int WORLD_DIM_X = 1;
+        public const int WORLD_DIM_Y = 1;
 
-        public int REGION_MAX_X = 24;
-        public int REGION_MAX_Y = 24;
+        public const int REGION_DIM_X = 5;
+        public const int REGION_DIM_Y = 5;
 
-        public int SECTOR_MAX_X = 49;
-        public int SECTOR_MAX_Y = 49;
+        public const int SECTOR_DIM_X = 50;
+        public const int SECTOR_DIM_Y = 50;
+        public const int SECTOR_DIM_Z = 3;
 
         // select options
         public int eNone = -1;
         public int eAny  =  0;
 
         // terrain
-        public enum eTerrain { River, Lake, Shore, Sea, Coast, Canyon, Flat, Hill, Mountain }
+        public enum eRegionType  { Flat  = 1, Hill, Mountain, Lake, Sea }
+        public enum eTerrainType { River = 1, Lake, Shore, Sea, Coast, Canyon, Flat, Hill, Mountain }
     }
 }

@@ -13,6 +13,7 @@ namespace Library.Resources.Location
         void              DeleteList (F_WORLD_MAP aFilter);
 
         D_WORLD_MAP SelectItem (K_WORLD_MAP aKey);
+        D_WORLD_MAP InsertItem (D_WORLD_MAP aDto);
         D_WORLD_MAP UpdateItem (D_WORLD_MAP aDto);
         void        DeleteItem (K_WORLD_MAP aKey);
     }
@@ -22,11 +23,9 @@ namespace Library.Resources.Location
     /// </summary>
     public class F_WORLD_MAP : Data_F_Base
     {
-        public int?   map_x_val       { get; set; }
-        public int?   map_y_val       { get; set; }
-        public int?   map_z_val       { get; set; }
-        public int?   map_t_val       { get; set; }
-        public string terrain_type_cd { get; set; }
+        public int?   regionID   { get; set; }
+        public int?   mapX       { get; set; }
+        public int?   mapY       { get; set; }
 
         /// <summary>
         /// default constructor
@@ -39,7 +38,8 @@ namespace Library.Resources.Location
     /// </summary>
     public class K_WORLD_MAP : Data_K_Base
     {
-
+        public int? mapX { get; set; }
+        public int? mapY { get; set; }
     }
 
     /// <summary>
@@ -47,11 +47,8 @@ namespace Library.Resources.Location
     /// </summary>
     public class D_WORLD_MAP : Data_O_Base
     {
-        public int          map_x_val       { get; set; }
-        public int          map_y_val       { get; set; }
-        public int          map_z_val       { get; set; }
-        public int          map_t_val       { get; set; }
-        public Ref.eTerrain terrain_type_cd { get; set; }
+        public int mapX { get; set; }
+        public int mapY { get; set; }
 
         /// <summary>
         /// default constructo

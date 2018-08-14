@@ -18,12 +18,12 @@ namespace Library.Common
         /// <param name="aFilter"></param>
         protected IQueryable<T> CheckActiveAndSelected (IQueryable<T> aQuery, F aFilter)
         {
-            if (aFilter.active_yn.HasValue)
+            if (aFilter.activeYn.HasValue)
             {
-                if (aFilter.selected_id.HasValue)
-                    aQuery = aQuery.Where (x => x.active_yn == aFilter.active_yn.Value || x.object_id == aFilter.selected_id);
+                if (aFilter.selectedID.HasValue)
+                    aQuery = aQuery.Where (x => x.activeYn == aFilter.activeYn.Value || x.objectID == aFilter.selectedID);
                 else
-                    aQuery = aQuery.Where (x => x.active_yn == aFilter.active_yn.Value);
+                    aQuery = aQuery.Where (x => x.activeYn == aFilter.activeYn.Value);
             }
 
             return aQuery;
