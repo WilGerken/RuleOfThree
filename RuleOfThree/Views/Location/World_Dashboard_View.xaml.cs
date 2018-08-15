@@ -12,20 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using RuleOfThree.Models;
 
-namespace RuleOfThree
+namespace RuleOfThree.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for World_Dashboard_View.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class World_Dashboard_View : UserControl
     {
-        public MainWindow()
+        public World_Dashboard_View()
         {
             InitializeComponent();
-
-            DataContext = new World_Dashboard_ViewModel();
         }
     }
 }

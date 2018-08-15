@@ -16,44 +16,7 @@ namespace Library.Domain
     /// Item Criteria
     /// </summary>
     [Serializable]
-    public class WorldMap_ItemCriteria : ItemCriteria_Base<WorldMap_ItemCriteria>
-    {
-        #region Properties
-
-        public static readonly PropertyInfo<int?> MapX_Property = RegisterProperty<int?>(c => c.MapX);
-        public int? MapX
-        {
-            get { return ReadProperty(MapX_Property); }
-            set { LoadProperty(MapX_Property, value); }
-        }
-
-        public static readonly PropertyInfo<int?> MapY_Property = RegisterProperty<int?>(c => c.MapY);
-        public int? MapY
-        {
-            get { return ReadProperty(MapY_Property); }
-            set { LoadProperty(MapY_Property, value); }
-        }
-
-        public K_WORLD_MAP ToDto()
-        {
-            K_WORLD_MAP dto = new K_WORLD_MAP();
-
-            dto.mapX = MapX;
-            dto.mapY = MapY;
-
-            base.ToDto(dto);
-
-            return dto;
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// List Criteria
-    /// </summary>
-    [Serializable]
-    public class WorldMap_ListCriteria : ListCriteria_Base<WorldMap_ListCriteria>
+    public class MapSector_ItemCriteria : ItemCriteria_Base<MapSector_ItemCriteria>
     {
         #region Properties
 
@@ -78,13 +41,74 @@ namespace Library.Domain
             set { LoadProperty(MapY_Property, value); }
         }
 
-        public F_WORLD_MAP ToDto()
+        public K_MAP_SECTOR ToDto()
         {
-            F_WORLD_MAP dto = new F_WORLD_MAP();
+            K_MAP_SECTOR dto = new K_MAP_SECTOR();
 
             dto.regionID = RegionID;
             dto.mapX     = MapX;
             dto.mapY     = MapY;
+
+            base.ToDto(dto);
+
+            return dto;
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// List Criteria
+    /// </summary>
+    [Serializable]
+    public class MapSector_ListCriteria : ListCriteria_Base<MapSector_ListCriteria>
+    {
+        #region Properties
+
+        public static readonly PropertyInfo<int?> RegionID_Property = RegisterProperty<int?>(c => c.RegionID);
+        public int? RegionID
+        {
+            get { return ReadProperty(RegionID_Property); }
+            set { LoadProperty(RegionID_Property, value); }
+        }
+
+        public static readonly PropertyInfo<int?> MapX_Property = RegisterProperty<int?>(c => c.MapX);
+        public int? MapX
+        {
+            get { return ReadProperty(MapX_Property); }
+            set { LoadProperty(MapX_Property, value); }
+        }
+
+        public static readonly PropertyInfo<int?> MapY_Property = RegisterProperty<int?>(c => c.MapY);
+        public int? MapY
+        {
+            get { return ReadProperty(MapY_Property); }
+            set { LoadProperty(MapY_Property, value); }
+        }
+
+        public static readonly PropertyInfo<int?> MapZ_Property = RegisterProperty<int?>(c => c.MapZ);
+        public int? MapZ
+        {
+            get { return ReadProperty(MapZ_Property); }
+            set { LoadProperty(MapZ_Property, value); }
+        }
+
+        public static readonly PropertyInfo<int?> MapT_Property = RegisterProperty<int?>(c => c.MapT);
+        public int? MapT
+        {
+            get { return ReadProperty(MapT_Property); }
+            set { LoadProperty(MapT_Property, value); }
+        }
+
+        public F_MAP_SECTOR ToDto()
+        {
+            F_MAP_SECTOR dto = new F_MAP_SECTOR();
+
+            dto.regionID = RegionID;
+            dto.mapX     = MapX;
+            dto.mapY     = MapY;
+            dto.mapZ     = MapZ;
+            dto.mapT     = MapT;
 
             base.ToDto (dto);
 
@@ -98,9 +122,16 @@ namespace Library.Domain
     /// ReadOnly Item
     /// </summary>
     [Serializable]
-    public class WorldMap_InfoItem : InfoItem_Base<WorldMap_InfoItem, WorldMap_ItemCriteria>
+    public class MapSector_InfoItem : InfoItem_Base<MapSector_InfoItem, MapSector_ItemCriteria>
     {
         #region Properties
+
+        public static readonly PropertyInfo<int> RegionID_Property = RegisterProperty<int>(c => c.RegionID);
+        public int RegionID
+        {
+            get { return ReadProperty(RegionID_Property); }
+            set { LoadProperty(RegionID_Property, value); }
+        }
 
         public static readonly PropertyInfo<int> MapX_Property = RegisterProperty<int>(c => c.MapX);
         public int MapX
@@ -116,10 +147,35 @@ namespace Library.Domain
             set { LoadProperty(MapY_Property, value); }
         }
 
-        public void FromDto(D_WORLD_MAP dto)
+        public static readonly PropertyInfo<int> MapZ_Property = RegisterProperty<int>(c => c.MapZ);
+        public int MapZ
         {
-            MapX = dto.mapX;
-            MapY = dto.mapY;
+            get { return ReadProperty(MapZ_Property); }
+            set { LoadProperty(MapZ_Property, value); }
+        }
+
+        public static readonly PropertyInfo<int> MapT_Property = RegisterProperty<int>(c => c.MapT);
+        public int MapT
+        {
+            get { return ReadProperty(MapT_Property); }
+            set { LoadProperty(MapT_Property, value); }
+        }
+
+        public static readonly PropertyInfo<Ref.eTerrainType> TerrainTypeCd_Property = RegisterProperty<Ref.eTerrainType>(c => c.TerrainTypeCd);
+        public Ref.eTerrainType TerrainTypeCd
+        {
+            get { return ReadProperty(TerrainTypeCd_Property); }
+            set { LoadProperty(TerrainTypeCd_Property, value); }
+        }
+
+        public void FromDto(D_MAP_SECTOR dto)
+        {
+            RegionID      = dto.regionID;
+            MapX          = dto.mapX;
+            MapY          = dto.mapY;
+            MapZ          = dto.mapZ;
+            MapT          = dto.mapT;
+            TerrainTypeCd = dto.terrainTypeCd;
 
             base.FromDto(dto);
         }
@@ -128,7 +184,7 @@ namespace Library.Domain
 
         #region DataPortal
 
-        private void Child_Fetch(D_WORLD_MAP dto) { FromDto(dto); }
+        private void Child_Fetch(D_MAP_SECTOR dto) { FromDto(dto); }
 
         #endregion
     }
@@ -137,11 +193,11 @@ namespace Library.Domain
     /// ReadOnly List
     /// </summary>
     [Serializable]
-    public class WorldMap_InfoList : InfoList_Base<WorldMap_InfoList, WorldMap_ListCriteria, WorldMap_InfoItem, WorldMap_ItemCriteria>
+    public class MapSector_InfoList : InfoList_Base<MapSector_InfoList, MapSector_ListCriteria, MapSector_InfoItem, MapSector_ItemCriteria>
     {
         #region DataPortal
 
-        private void DataPortal_Fetch (WorldMap_ListCriteria aCriteria)
+        private void DataPortal_Fetch (MapSector_ListCriteria aCriteria)
         {
             IsReadOnly = false;
             var rlce = RaiseListChangedEvents;
@@ -150,11 +206,11 @@ namespace Library.Domain
             // add elements of list from persistent store
             using (var ctx = DalFactory.GetManager (DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = ctx.GetProvider<I_WORLD_MAP>();
+                var dal = ctx.GetProvider<I_MAP_SECTOR>();
                 var list = dal.SelectList(aCriteria.ToDto());
 
                 foreach (var item in list)
-                    Add (DataPortal.FetchChild<WorldMap_InfoItem>(item));
+                    Add (DataPortal.FetchChild<MapSector_InfoItem>(item));
             }
 
             RaiseListChangedEvents = rlce;
@@ -165,9 +221,17 @@ namespace Library.Domain
     }
 
     [Serializable]
-    public class WorldMap_EditItem : EditItem_Base<WorldMap_EditItem, WorldMap_ItemCriteria>
+    public class MapSector_EditItem : EditItem_Base<MapSector_EditItem, MapSector_ItemCriteria>
     {
         #region Properties
+
+        public static readonly PropertyInfo<int> RegionID_Property = RegisterProperty<int>(c => c.RegionID);
+        [Required]
+        public int RegionID
+        {
+            get { return GetProperty(RegionID_Property); }
+            set { SetProperty(RegionID_Property, value); }
+        }
 
         public static readonly PropertyInfo<int> MapX_Property = RegisterProperty<int>(c => c.MapX);
         [Required]
@@ -185,23 +249,55 @@ namespace Library.Domain
             set { SetProperty(MapY_Property, value); }
         }
 
-        public void FromDto(D_WORLD_MAP dto)
+        public static readonly PropertyInfo<int> MapZ_Property = RegisterProperty<int>(c => c.MapZ);
+        [Required]
+        public int MapZ
+        {
+            get { return GetProperty(MapZ_Property); }
+            set { SetProperty(MapZ_Property, value); }
+        }
+
+        public static readonly PropertyInfo<int> MapT_Property = RegisterProperty<int>(c => c.MapT);
+        [Required]
+        public int MapT
+        {
+            get { return GetProperty(MapT_Property); }
+            set { SetProperty(MapT_Property, value); }
+        }
+
+        [Required]
+        public static readonly PropertyInfo<Ref.eTerrainType> TerrainTypeCd_Property = RegisterProperty<Ref.eTerrainType>(c => c.TerrainTypeCd);
+        public Ref.eTerrainType TerrainTypeCd
+        {
+            get { return GetProperty(TerrainTypeCd_Property); }
+            set { SetProperty(TerrainTypeCd_Property, value); }
+        }
+
+        public void FromDto (D_MAP_SECTOR dto)
         {
             using (BypassPropertyChecks)
             {
-                MapX = dto.mapX;
-                MapY = dto.mapY;
+                RegionID      = dto.regionID;
+                MapX          = dto.mapX;
+                MapY          = dto.mapY;
+                MapZ          = dto.mapZ;
+                MapT          = dto.mapT;
+                TerrainTypeCd = dto.terrainTypeCd;
 
                 base.FromDto (dto);
             }
         }
 
-        public D_WORLD_MAP ToDto()
+        public D_MAP_SECTOR ToDto()
         {
-            D_WORLD_MAP dto = new D_WORLD_MAP();
+            D_MAP_SECTOR dto = new D_MAP_SECTOR();
 
-            dto.mapX = MapX;
-            dto.mapY = MapY;
+            dto.regionID      = RegionID;
+            dto.mapX          = MapX;
+            dto.mapY          = MapY;
+            dto.mapZ          = MapZ;
+            dto.mapT          = MapT;
+            dto.terrainTypeCd = TerrainTypeCd;
 
             base.ToDto (dto);
 
@@ -218,26 +314,26 @@ namespace Library.Domain
             base.DataPortal_Create();
         }
 
-        private void DataPortal_Fetch(WorldMap_ItemCriteria aKey)
+        private void DataPortal_Fetch(MapSector_ItemCriteria aKey)
         {
             using (var dalManager = DalFactory.GetManager(DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = dalManager.GetProvider<I_WORLD_MAP>();
+                var dal = dalManager.GetProvider<I_MAP_SECTOR>();
                 var data = dal.SelectItem(aKey.ToDto());
 
                 FromDto(data);
             }
         }
 
-        private void Child_Fetch(D_WORLD_MAP dto) { FromDto(dto); }
+        private void Child_Fetch(D_MAP_SECTOR dto) { FromDto(dto); }
 
         [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Insert()
         {
-            using (var dalManager = DalFactory.GetManager(DalFactory.LOCATION_SCHEMA_NM))
+            using (var dalManager = DalFactory.GetManager (DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = dalManager.GetProvider<I_WORLD_MAP>();
-                var data = dal.InsertItem(ToDto());
+                var dal = dalManager.GetProvider<I_MAP_SECTOR>();
+                var data = dal.InsertItem (ToDto());
 
                 FromDto(data);
             }
@@ -251,7 +347,7 @@ namespace Library.Domain
                 UpdateOnDts = DateTime.Now;
                 UpdateByUid = AppInfo.UserID;
 
-                var dal = dalManager.GetProvider<I_WORLD_MAP>();
+                var dal = dalManager.GetProvider<I_MAP_SECTOR>();
                 var data = dal.UpdateItem(ToDto());
 
                 FromDto(data);
@@ -263,9 +359,9 @@ namespace Library.Domain
         {
             using (var dalManager = DalFactory.GetManager(DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = dalManager.GetProvider<I_WORLD_MAP>();
+                var dal = dalManager.GetProvider<I_MAP_SECTOR>();
 
-                dal.DeleteItem(new K_WORLD_MAP { objectID = this.ObjectID });
+                dal.DeleteItem(new K_MAP_SECTOR { objectID = this.ObjectID });
             }
         }
 
@@ -292,16 +388,16 @@ namespace Library.Domain
     /// Unit of Work Getter
     /// </summary>
     [Serializable]
-    public class WorldMap_EditItem_Getter : EditItem_Getter_Base<WorldMap_EditItem, WorldMap_ItemCriteria>
+    public class MapSector_EditItem_Getter : EditItem_Getter_Base<MapSector_EditItem, MapSector_ItemCriteria>
     {
         #region DataPortal
 
-        protected override void DataPortal_Fetch(WorldMap_ItemCriteria aCriteria)
+        protected override void DataPortal_Fetch(MapSector_ItemCriteria aCriteria)
         {
             if (aCriteria.HasKey)
-                EditItem = WorldMap_EditItem.GetItem(aCriteria);
+                EditItem = MapSector_EditItem.GetItem(aCriteria);
             else
-                EditItem = WorldMap_EditItem.NewItem(aCriteria);
+                EditItem = MapSector_EditItem.NewItem(aCriteria);
         }
 
         #endregion
@@ -311,22 +407,22 @@ namespace Library.Domain
     /// Editable List
     /// </summary>
     [Serializable]
-    public class WorldMap_EditList : EditList_Base<WorldMap_EditList, WorldMap_ListCriteria, WorldMap_EditItem, WorldMap_ItemCriteria>
+    public class MapSector_EditList : EditList_Base<MapSector_EditList, MapSector_ListCriteria, MapSector_EditItem, MapSector_ItemCriteria>
     {
         #region DataPortal
 
-        private void DataPortal_Fetch(WorldMap_ListCriteria aCriteria)
+        private void DataPortal_Fetch(MapSector_ListCriteria aCriteria)
         {
             var rlce = RaiseListChangedEvents;
             RaiseListChangedEvents = false;
 
             using (var ctx = DalFactory.GetManager(DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = ctx.GetProvider<I_WORLD_MAP>();
+                var dal = ctx.GetProvider<I_MAP_SECTOR>();
                 var list = dal.SelectList(aCriteria.ToDto());
 
                 foreach (var item in list)
-                    Add(DataPortal.FetchChild<WorldMap_EditItem>(item));
+                    Add(DataPortal.FetchChild<MapSector_EditItem>(item));
             }
 
             RaiseListChangedEvents = rlce;

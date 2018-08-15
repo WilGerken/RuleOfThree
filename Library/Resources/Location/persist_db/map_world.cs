@@ -10,21 +10,21 @@ namespace Library.Resources.Location.persist_db
     /// <summary>
     /// data access class
     /// </summary>
-    public class WORLD_MAP : DATA_ACCESS_BASE <D_WORLD_MAP, F_WORLD_MAP, K_WORLD_MAP>, I_WORLD_MAP
+    public class MAP_WORLD : DATA_ACCESS_BASE <D_MAP_WORLD, F_MAP_WORLD, K_MAP_WORLD>, I_MAP_WORLD
     {
         /// <summary>
         /// select a list of items from persistent store for given filter
         /// </summary>
         /// <param name="aFilter"></param>
         /// <returns></returns>
-        public List<D_WORLD_MAP> SelectList (F_WORLD_MAP aFilter)
+        public List<D_MAP_WORLD> SelectList (F_MAP_WORLD aFilter)
         {
-            List<D_WORLD_MAP> lResult = new List<D_WORLD_MAP>();
+            List<D_MAP_WORLD> lResult = new List<D_MAP_WORLD>();
 #if (NOTYET)
             using (var ctx = DbContextManager<RepositoryModel.ApocFormsEntities>.GetManager())
             {
-                var lQuery = (from item in ctx.DbContext.WORLD_MAP
-                              select new D_WORLD_MAP
+                var lQuery = (from item in ctx.DbContext.MAP_WORLD
+                              select new D_MAP_WORLD
                               {
                                   object_id    = item.id,
                                   event_dts    = item.event_dts,
@@ -77,7 +77,7 @@ namespace Library.Resources.Location.persist_db
         /// remove all matching items from persistent store
         /// </summary>
         /// <param name="aFilter"></param>
-        public void DeleteList (F_WORLD_MAP aFilter)
+        public void DeleteList (F_MAP_WORLD aFilter)
         {
 
         }
@@ -87,13 +87,13 @@ namespace Library.Resources.Location.persist_db
         /// </summary>
         /// <param name="aId"></param>
         /// <returns></returns>
-        public D_WORLD_MAP SelectItem (K_WORLD_MAP aKey)
+        public D_MAP_WORLD SelectItem (K_MAP_WORLD aKey)
         {
 #if (NOTYET)
             using (var ctx = DbContextManager<RepositoryModel.ApocFormsEntities>.GetManager())
             {
-                var lQuery = (from item in ctx.DbContext.WORLD_MAP
-                              select new D_WORLD_MAP
+                var lQuery = (from item in ctx.DbContext.MAP_WORLD
+                              select new D_MAP_WORLD
                               {
                                   object_id = item.id,
                                   event_dts = item.event_dts,
@@ -125,7 +125,7 @@ namespace Library.Resources.Location.persist_db
                 return lQuery.FirstOrDefault();
             }
 #else
-            return new D_WORLD_MAP();
+            return new D_MAP_WORLD();
 #endif
         }
 
@@ -133,13 +133,13 @@ namespace Library.Resources.Location.persist_db
         /// insert an item into persistent store
         /// </summary>
         /// <param name="aDto"></param>
-        public D_WORLD_MAP InsertItem (D_WORLD_MAP aDto)
+        public D_MAP_WORLD InsertItem (D_MAP_WORLD aDto)
         {
 #if (NOTYET)
             using (var ctx = DbContextManager<RepositoryModel.ApocFormsEntities>.GetManager())
             {
                 // create new persistent object
-                var data = new WORLD_MAP ();
+                var data = new MAP_WORLD ();
 
                 data.event_dts    = aDto.event_dts;
                 data.logger_nm    = aDto.logger_nm;
@@ -163,7 +163,7 @@ namespace Library.Resources.Location.persist_db
                 data.update_on_dts = aDto.update_on_dts;
 
                 // persist object and save changes
-                ctx.DbContext.WORLD_MAP.Add(data);
+                ctx.DbContext.MAP_WORLD.Add(data);
                 ctx.DbContext.SaveChanges();
 
                 aDto.object_id     = data.id;
@@ -179,12 +179,12 @@ namespace Library.Resources.Location.persist_db
         /// update an item in persistent store
         /// </summary>
         /// <param name="aDto"></param>
-        public D_WORLD_MAP UpdateItem (D_WORLD_MAP aDto)
+        public D_MAP_WORLD UpdateItem (D_MAP_WORLD aDto)
         {
 #if (NOTYET)
             using (var ctx = DbContextManager<RepositoryModel.ApocFormsEntities>.GetManager())
             {
-                var data = ctx.DbContext.WORLD_MAP.Find (aDto.object_id);
+                var data = ctx.DbContext.MAP_WORLD.Find (aDto.object_id);
 
                 // compare versions
                 if (! aDto.version_key.SequenceEqual<byte>(data.version_key))
@@ -227,14 +227,14 @@ namespace Library.Resources.Location.persist_db
         /// remove an item from persistent store
         /// </summary>
         /// <param name="aId"></param>
-        public void DeleteItem (K_WORLD_MAP aKey)
+        public void DeleteItem (K_MAP_WORLD aKey)
         {
 #if (NOTYET)
             using (var ctx = DbContextManager<RepositoryModel.ApocFormsEntities>.GetManager ())
             {
-                var data = ctx.DbContext.WORLD_MAP.Find (aKey.object_id);
+                var data = ctx.DbContext.MAP_WORLD.Find (aKey.object_id);
 
-                ctx.DbContext.WORLD_MAP.Remove (data);
+                ctx.DbContext.MAP_WORLD.Remove (data);
                 ctx.DbContext.SaveChanges();
             }
 #endif

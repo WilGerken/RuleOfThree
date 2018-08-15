@@ -9,27 +9,25 @@ namespace Library.Resources.Location.memory
     /// <summary>
     /// data access class
     /// </summary>
-    public class SECTOR_MAP : DATA_ACCESS_BASE<D_SECTOR_MAP, F_SECTOR_MAP, K_SECTOR_MAP>, I_SECTOR_MAP
+    public class MAP_WORLD : DATA_ACCESS_BASE<D_MAP_WORLD, F_MAP_WORLD, K_MAP_WORLD>, I_MAP_WORLD
     {
         // resource list
 
-        public static List<D_SECTOR_MAP> _ResourceList = new List<D_SECTOR_MAP>();
+        public static List<D_MAP_WORLD> _ResourceList = new List<D_MAP_WORLD>();
 
-        static SECTOR_MAP ()
+        static MAP_WORLD ()
         {
-            for (int x = 0; x <= Ref.SECTOR_DIM_X; x++)
+            for (int x = 0; x <= Ref.WORLD_DIM_X; x++)
             {
-                for (int y = 0; y <= Ref.SECTOR_DIM_Y ; y++)
+                for (int y = 0; y <= Ref.WORLD_DIM_Y; y++)
                 {
-                    int id = 0;
+                    int lID = 0;
 
-                    _ResourceList.Add (new D_SECTOR_MAP {
-                        objectID = id++,
-                        mapX = x,
-                        mapY = y,
-                        mapZ = 0,
-                        mapT = 0,
-                        terrainTypeCd = Ref.eTerrainType.Flat
+                    _ResourceList.Add (new D_MAP_WORLD
+                    {
+                        objectID = lID++,
+                        mapX     = x,
+                        mapY     = y
                     });
                 }
             }
@@ -40,14 +38,14 @@ namespace Library.Resources.Location.memory
         /// </summary>
         /// <param name="aFilter"></param>
         /// <returns></returns>
-        public List<D_SECTOR_MAP> SelectList (F_SECTOR_MAP aFilter)
+        public List<D_MAP_WORLD> SelectList (F_MAP_WORLD aFilter)
         {
-            IEnumerable<D_SECTOR_MAP> lResult = _ResourceList;
+            IEnumerable<D_MAP_WORLD> lResult = _ResourceList;
 
             // apply filter attributes
             if (aFilter.regionID.HasValue)
             {
-                lResult = lResult.Where(x => x.regionID == aFilter.regionID.Value);
+                lResult = lResult.Where (x => MAP_REGION._ResourceList.Select (y => y.worldID).Contains (x.objectID));
             }
 
             if (aFilter.mapX.HasValue)
@@ -57,17 +55,7 @@ namespace Library.Resources.Location.memory
 
             if (aFilter.mapY.HasValue)
             {
-                lResult = lResult.Where(x => x.mapY == aFilter.mapY.Value);
-            }
-
-            if (aFilter.mapZ.HasValue)
-            {
-                lResult = lResult.Where(x => x.mapZ == aFilter.mapZ.Value);
-            }
-
-            if (aFilter.mapT.HasValue)
-            {
-                lResult = lResult.Where(x => x.mapT == aFilter.mapT.Value);
+                lResult = lResult.Where (x => x.mapY == aFilter.mapY.Value);
             }
 
             // check base criteria
@@ -77,16 +65,16 @@ namespace Library.Resources.Location.memory
             }
 
             // return result
-            return lResult.ToList<D_SECTOR_MAP>();
+            return lResult.ToList<D_MAP_WORLD>();
         }
 
         /// <summary>
         /// remove all matching items from persistent store
         /// </summary>
         /// <param name="aFilter"></param>
-        public void DeleteList (F_SECTOR_MAP aFilter)
+        public void DeleteList (F_MAP_WORLD aFilter)
         {
-            throw new NotImplementedException ("SECTOR_MAP.DeleteList not implemented");
+            throw new NotImplementedException ("MAP_WORLD.DeleteList not implemented");
         }
 
         /// <summary>
@@ -94,9 +82,9 @@ namespace Library.Resources.Location.memory
         /// </summary>
         /// <param name="aKey"></param>
         /// <returns></returns>
-        public D_SECTOR_MAP SelectItem (K_SECTOR_MAP aKey)
+        public D_MAP_WORLD SelectItem (K_MAP_WORLD aKey)
         {
-            D_SECTOR_MAP lResult = null;
+            D_MAP_WORLD lResult = null;
 
             // apply key attributes
             if (aKey.objectID.HasValue)
@@ -104,7 +92,7 @@ namespace Library.Resources.Location.memory
 
             // throw exception if not found
             if (lResult == null)
-                throw new DllNotFoundException (string.Format ("SECTOR_MAP Item not found for key {0}", aKey.objectID));
+                throw new DllNotFoundException (string.Format ("MAP_WORLD Item not found for key {0}", aKey.objectID));
 
             // return result
             return lResult;
@@ -114,7 +102,7 @@ namespace Library.Resources.Location.memory
         /// insert an item into persistent store
         /// </summary>
         /// <param name="aDto"></param>
-        public D_SECTOR_MAP InsertItem (D_SECTOR_MAP aDto)
+        public D_MAP_WORLD InsertItem (D_MAP_WORLD aDto)
         {
             int lID = 0;
 
@@ -122,22 +110,16 @@ namespace Library.Resources.Location.memory
                 lID = _ResourceList.Select (x => x.objectID).Max() + 1;
 
             // create new item
-            D_SECTOR_MAP lItem = new D_SECTOR_MAP
-            {
-                objectID      = lID,
-                regionID      = aDto.regionID,
-                mapX          = aDto.mapX,
-                mapY          = aDto.mapY,
-                mapZ          = aDto.mapZ,
-                mapT          = aDto.mapT,
-                terrainTypeCd = aDto.terrainTypeCd
+            D_MAP_WORLD lItem = new D_MAP_WORLD
+            { 
+                objectID = lID,
+                mapX     = aDto.mapX,
+                mapY     = aDto.mapY,
             };
 
-            // insert new item
+            // insert new item into list
             lock (_ResourceList)
             {
-                _ResourceList.Add (lItem);
-
             }
 
             return aDto;
@@ -147,20 +129,16 @@ namespace Library.Resources.Location.memory
         /// update an item in persistent store
         /// </summary>
         /// <param name="aDto"></param>
-        public D_SECTOR_MAP UpdateItem (D_SECTOR_MAP aDto)
+        public D_MAP_WORLD UpdateItem (D_MAP_WORLD aDto)
         {
             // fetch indicated item
-            D_SECTOR_MAP lItem = _ResourceList.Where (x => x.objectID == aDto.objectID).FirstOrDefault();
+            D_MAP_WORLD lItem = _ResourceList.Where (x => x.objectID == aDto.objectID).FirstOrDefault();
 
             // update item
             lock (lItem)
             {
-                lItem.regionID      = aDto.regionID;
-                lItem.mapX          = aDto.mapX;
-                lItem.mapY          = aDto.mapY;
-                lItem.mapZ          = aDto.mapZ;
-                lItem.mapT          = aDto.mapT;
-                lItem.terrainTypeCd = aDto.terrainTypeCd;
+                lItem.mapX = aDto.mapX;
+                lItem.mapY = aDto.mapY;
             }
 
             return aDto;
@@ -170,8 +148,12 @@ namespace Library.Resources.Location.memory
         /// remove an item from persistent store
         /// </summary>
         /// <param name="aKey"></param>
-        public void DeleteItem (K_SECTOR_MAP aKey)
+        public void DeleteItem (K_MAP_WORLD aKey)
         {
+            lock (_ResourceList)
+            {
+
+            }
         }
     }
 }

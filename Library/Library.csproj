@@ -47,9 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Ref.cs" />
-    <Compile Include="Domain\Location\SectorMap.cs" />
-    <Compile Include="Domain\Location\RegionMap.cs" />
-    <Compile Include="Domain\Location\WorldMap.cs" />
+    <Compile Include="Domain\Location\MapSector.cs" />
+    <Compile Include="Domain\Location\MapRegion.cs" />
+    <Compile Include="Domain\Location\MapWorld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\BaseBusObj.cs" />
     <Compile Include="Common\BaseDataAccess.cs" />
@@ -57,13 +57,13 @@
     <Compile Include="Common\BaseConfig.cs" />
     <Compile Include="Resources\DalFactory.cs" />
     <Compile Include="Resources\Location\DalManager.cs" />
-    <Compile Include="Resources\Location\interfaces\region_map.cs" />
-    <Compile Include="Resources\Location\interfaces\sector_map.cs" />
-    <Compile Include="Resources\Location\interfaces\world_map.cs" />
-    <Compile Include="Resources\Location\memory\sector_map.cs" />
-    <Compile Include="Resources\Location\memory\region_map.cs" />
-    <Compile Include="Resources\Location\memory\world_map.cs" />
-    <Compile Include="Resources\Location\persist_db\world_map.cs" />
+    <Compile Include="Resources\Location\interfaces\map_region.cs" />
+    <Compile Include="Resources\Location\interfaces\map_sector.cs" />
+    <Compile Include="Resources\Location\interfaces\map_world.cs" />
+    <Compile Include="Resources\Location\memory\map_sector.cs" />
+    <Compile Include="Resources\Location\memory\map_region.cs" />
+    <Compile Include="Resources\Location\memory\map_world.cs" />
+    <Compile Include="Resources\Location\persist_db\map_world.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\Common\" />

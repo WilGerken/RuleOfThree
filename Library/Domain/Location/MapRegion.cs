@@ -16,7 +16,7 @@ namespace Library.Domain
     /// Item Criteria
     /// </summary>
     [Serializable]
-    public class RegionMap_ItemCriteria : ItemCriteria_Base<RegionMap_ItemCriteria>
+    public class MapRegion_ItemCriteria : ItemCriteria_Base<MapRegion_ItemCriteria>
     {
         #region Properties
 
@@ -41,9 +41,9 @@ namespace Library.Domain
             set { LoadProperty(MapY_Property, value); }
         }
 
-        public K_REGION_MAP ToDto()
+        public K_MAP_REGION ToDto()
         {
-            K_REGION_MAP dto = new K_REGION_MAP();
+            K_MAP_REGION dto = new K_MAP_REGION();
 
             dto.worldID = WorldID;
             dto.mapX    = MapX;
@@ -61,7 +61,7 @@ namespace Library.Domain
     /// List Criteria
     /// </summary>
     [Serializable]
-    public class RegionMap_ListCriteria : ListCriteria_Base<RegionMap_ListCriteria>
+    public class MapRegion_ListCriteria : ListCriteria_Base<MapRegion_ListCriteria>
     {
         #region Properties
 
@@ -93,9 +93,9 @@ namespace Library.Domain
             set { LoadProperty(MapY_Property, value); }
         }
 
-        public F_REGION_MAP ToDto()
+        public F_MAP_REGION ToDto()
         {
-            F_REGION_MAP dto = new F_REGION_MAP();
+            F_MAP_REGION dto = new F_MAP_REGION();
 
             dto.worldID  = WorldID;
             dto.sectorID = SectorID;
@@ -114,7 +114,7 @@ namespace Library.Domain
     /// ReadOnly Item
     /// </summary>
     [Serializable]
-    public class RegionMap_InfoItem : InfoItem_Base<RegionMap_InfoItem, RegionMap_ItemCriteria>
+    public class MapRegion_InfoItem : InfoItem_Base<MapRegion_InfoItem, MapRegion_ItemCriteria>
     {
         #region Properties
 
@@ -146,7 +146,7 @@ namespace Library.Domain
             set { LoadProperty(RegionTypeCd_Property, value); }
         }
 
-        public void FromDto(D_REGION_MAP dto)
+        public void FromDto(D_MAP_REGION dto)
         {
             WorldID      = dto.worldID;
             MapX         = dto.mapX;
@@ -160,7 +160,7 @@ namespace Library.Domain
 
         #region DataPortal
 
-        private void Child_Fetch(D_REGION_MAP dto) { FromDto(dto); }
+        private void Child_Fetch(D_MAP_REGION dto) { FromDto(dto); }
 
         #endregion
     }
@@ -169,11 +169,11 @@ namespace Library.Domain
     /// ReadOnly List
     /// </summary>
     [Serializable]
-    public class RegionMap_InfoList : InfoList_Base<RegionMap_InfoList, RegionMap_ListCriteria, RegionMap_InfoItem, RegionMap_ItemCriteria>
+    public class MapRegion_InfoList : InfoList_Base<MapRegion_InfoList, MapRegion_ListCriteria, MapRegion_InfoItem, MapRegion_ItemCriteria>
     {
         #region DataPortal
 
-        private void DataPortal_Fetch (RegionMap_ListCriteria aCriteria)
+        private void DataPortal_Fetch (MapRegion_ListCriteria aCriteria)
         {
             IsReadOnly = false;
             var rlce = RaiseListChangedEvents;
@@ -182,11 +182,11 @@ namespace Library.Domain
             // add elements of list from persistent store
             using (var ctx = DalFactory.GetManager (DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = ctx.GetProvider<I_REGION_MAP>();
+                var dal = ctx.GetProvider<I_MAP_REGION>();
                 var list = dal.SelectList(aCriteria.ToDto());
 
                 foreach (var item in list)
-                    Add (DataPortal.FetchChild<RegionMap_InfoItem>(item));
+                    Add (DataPortal.FetchChild<MapRegion_InfoItem>(item));
             }
 
             RaiseListChangedEvents = rlce;
@@ -197,7 +197,7 @@ namespace Library.Domain
     }
 
     [Serializable]
-    public class RegionMap_EditItem : EditItem_Base<RegionMap_EditItem, RegionMap_ItemCriteria>
+    public class MapRegion_EditItem : EditItem_Base<MapRegion_EditItem, MapRegion_ItemCriteria>
     {
         #region Properties
 
@@ -233,7 +233,7 @@ namespace Library.Domain
             set { SetProperty(RegionTypeCd_Property, value); }
         }
 
-        public void FromDto (D_REGION_MAP dto)
+        public void FromDto (D_MAP_REGION dto)
         {
             using (BypassPropertyChecks)
             {
@@ -246,9 +246,9 @@ namespace Library.Domain
             }
         }
 
-        public D_REGION_MAP ToDto()
+        public D_MAP_REGION ToDto()
         {
-            D_REGION_MAP dto = new D_REGION_MAP();
+            D_MAP_REGION dto = new D_MAP_REGION();
 
             dto.worldID      = WorldID;
             dto.mapX         = MapX;
@@ -258,6 +258,18 @@ namespace Library.Domain
             base.ToDto (dto);
 
             return dto;
+        }
+
+        public static readonly PropertyInfo<MapSector_EditList> SectorList_Property =
+            RegisterProperty<MapSector_EditList>(p => p.SectorList, RelationshipTypes.Child | RelationshipTypes.LazyLoad);
+        public MapSector_EditList SectorList
+        {
+            get
+            {
+                return LazyGetProperty(SectorList_Property,
+                    () => DataPortal.Fetch<MapSector_EditList>(new MapSector_ListCriteria { RegionID = ReadProperty (ObjectID_Property) }));
+            }
+            private set { LoadProperty(SectorList_Property, value); }
         }
 
         #endregion
@@ -270,25 +282,25 @@ namespace Library.Domain
             base.DataPortal_Create();
         }
 
-        private void DataPortal_Fetch(RegionMap_ItemCriteria aKey)
+        private void DataPortal_Fetch(MapRegion_ItemCriteria aKey)
         {
             using (var dalManager = DalFactory.GetManager(DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = dalManager.GetProvider<I_REGION_MAP>();
+                var dal = dalManager.GetProvider<I_MAP_REGION>();
                 var data = dal.SelectItem(aKey.ToDto());
 
                 FromDto(data);
             }
         }
 
-        private void Child_Fetch(D_REGION_MAP dto) { FromDto(dto); }
+        private void Child_Fetch(D_MAP_REGION dto) { FromDto(dto); }
 
         [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Insert()
         {
             using (var dalManager = DalFactory.GetManager (DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = dalManager.GetProvider<I_REGION_MAP>();
+                var dal = dalManager.GetProvider<I_MAP_REGION>();
                 var data = dal.InsertItem (ToDto());
 
                 FromDto(data);
@@ -303,7 +315,7 @@ namespace Library.Domain
                 UpdateOnDts = DateTime.Now;
                 UpdateByUid = AppInfo.UserID;
 
-                var dal = dalManager.GetProvider<I_REGION_MAP>();
+                var dal = dalManager.GetProvider<I_MAP_REGION>();
                 var data = dal.UpdateItem(ToDto());
 
                 FromDto(data);
@@ -315,9 +327,9 @@ namespace Library.Domain
         {
             using (var dalManager = DalFactory.GetManager(DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = dalManager.GetProvider<I_REGION_MAP>();
+                var dal = dalManager.GetProvider<I_MAP_REGION>();
 
-                dal.DeleteItem(new K_REGION_MAP { objectID = this.ObjectID });
+                dal.DeleteItem(new K_MAP_REGION { objectID = this.ObjectID });
             }
         }
 
@@ -344,16 +356,16 @@ namespace Library.Domain
     /// Unit of Work Getter
     /// </summary>
     [Serializable]
-    public class RegionMap_EditItem_Getter : EditItem_Getter_Base<RegionMap_EditItem, RegionMap_ItemCriteria>
+    public class MapRegion_EditItem_Getter : EditItem_Getter_Base<MapRegion_EditItem, MapRegion_ItemCriteria>
     {
         #region DataPortal
 
-        protected override void DataPortal_Fetch(RegionMap_ItemCriteria aCriteria)
+        protected override void DataPortal_Fetch(MapRegion_ItemCriteria aCriteria)
         {
             if (aCriteria.HasKey)
-                EditItem = RegionMap_EditItem.GetItem(aCriteria);
+                EditItem = MapRegion_EditItem.GetItem(aCriteria);
             else
-                EditItem = RegionMap_EditItem.NewItem(aCriteria);
+                EditItem = MapRegion_EditItem.NewItem(aCriteria);
         }
 
         #endregion
@@ -363,22 +375,22 @@ namespace Library.Domain
     /// Editable List
     /// </summary>
     [Serializable]
-    public class RegionMap_EditList : EditList_Base<RegionMap_EditList, RegionMap_ListCriteria, RegionMap_EditItem, RegionMap_ItemCriteria>
+    public class MapRegion_EditList : EditList_Base<MapRegion_EditList, MapRegion_ListCriteria, MapRegion_EditItem, MapRegion_ItemCriteria>
     {
         #region DataPortal
 
-        private void DataPortal_Fetch(RegionMap_ListCriteria aCriteria)
+        private void DataPortal_Fetch(MapRegion_ListCriteria aCriteria)
         {
             var rlce = RaiseListChangedEvents;
             RaiseListChangedEvents = false;
 
             using (var ctx = DalFactory.GetManager(DalFactory.LOCATION_SCHEMA_NM))
             {
-                var dal = ctx.GetProvider<I_REGION_MAP>();
+                var dal = ctx.GetProvider<I_MAP_REGION>();
                 var list = dal.SelectList(aCriteria.ToDto());
 
                 foreach (var item in list)
-                    Add(DataPortal.FetchChild<RegionMap_EditItem>(item));
+                    Add(DataPortal.FetchChild<MapRegion_EditItem>(item));
             }
 
             RaiseListChangedEvents = rlce;

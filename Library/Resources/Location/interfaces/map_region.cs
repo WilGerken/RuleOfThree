@@ -7,21 +7,21 @@ namespace Library.Resources.Location
     /// <summary>
     /// public interface for WorldMap items
     /// </summary>
-    public interface I_REGION_MAP
+    public interface I_MAP_REGION
     {
-        List<D_REGION_MAP> SelectList (F_REGION_MAP aFilter);
-        void               DeleteList (F_REGION_MAP aFilter);
+        List<D_MAP_REGION> SelectList (F_MAP_REGION aFilter);
+        void               DeleteList (F_MAP_REGION aFilter);
 
-        D_REGION_MAP SelectItem (K_REGION_MAP aKey);
-        D_REGION_MAP InsertItem (D_REGION_MAP aDto);
-        D_REGION_MAP UpdateItem (D_REGION_MAP aDto);
-        void         DeleteItem (K_REGION_MAP aKey);
+        D_MAP_REGION SelectItem (K_MAP_REGION aKey);
+        D_MAP_REGION InsertItem (D_MAP_REGION aDto);
+        D_MAP_REGION UpdateItem (D_MAP_REGION aDto);
+        void         DeleteItem (K_MAP_REGION aKey);
     }
 
     /// <summary>
     /// filter object for WorldMap lists
     /// </summary>
-    public class F_REGION_MAP : Data_F_Base
+    public class F_MAP_REGION : Data_F_Base
     {
         public int?   worldID      { get; set; }
         public int?   sectorID     { get; set; }
@@ -32,13 +32,13 @@ namespace Library.Resources.Location
         /// <summary>
         /// default constructor
         /// </summary>
-        public F_REGION_MAP () { }
+        public F_MAP_REGION () { }
     }
 
     /// <summary>
     /// key object for WorldMap items
     /// </summary>
-    public class K_REGION_MAP : Data_K_Base
+    public class K_MAP_REGION : Data_K_Base
     {
         public int? worldID { get; set; }
         public int? mapX    { get; set; }
@@ -48,7 +48,7 @@ namespace Library.Resources.Location
     /// <summary>
     /// data object for WorldMap items
     /// </summary>
-    public class D_REGION_MAP : Data_O_Base
+    public class D_MAP_REGION : Data_O_Base
     {
         public int             worldID       { get; set; }
         public int             mapX          { get; set; }
@@ -58,6 +58,6 @@ namespace Library.Resources.Location
         /// <summary>
         /// default constructo
         /// </summary>
-        public D_REGION_MAP () : base () { }
+        public D_MAP_REGION () : base () { }
     }
 }
